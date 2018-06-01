@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div {
+            float: left;
+            border: 2px dashed blue;
+            width: 200px;
+            height: 200px;
+        }
+        img {
+            width: 400px;
+            height: 400px;
+            margin:30px;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            document.getElementById('dropzone')
+                .addEventListener('dragover',function (ev) {
+                    ev.preventDefault();
+                    ev.dataTransfer.dropEffect="copy";
+                });
+            document.getElementById('dropzone')
+                .addEventListener('drop',function (ev) {
+                    ev.preventDefault();
+                    var fileObj = ev.dataTransfer.files[0];
+                    console.log(fileObj.name + ' ' + fileObj.type);
+                    
+                    var reader = new FileReader();
+                    reader.onload = function (ev) {
+                        console.log(ev.target.result);
+                        document.getElementById('imgDrop')
+                            .setAttribute('src',ev.target.result);
+                    }
+                    reader.readAsDataURL(fileObj);
+                });
+        }
+    </script>
+</head>
+<body>
+    <h2>image 파일을 drop 하세요</h2>
+    <div id="dropzone"></div>
+    <img id="imgDrop" width="300" height="300"/>
+
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div {
+            border: 2px dashed blue;
+            width: 400px;
+            height: 400px;
+        }
+    </style>
+    <script>
+        var dropzone;
+        window.onload=function () {
+            dropzone = document.getElementById('divDrop');
+            dropzone.addEventListener('dragover',function (ev) {
+                ev.preventDefault();
+                ev.dataTransfer.dropEffect="copy";
+            });
+            dropzone.addEventListener('drop',dropFunc);
+        }
+        function dropFunc(ev) {
+            ev.preventDefault();
+            //1.dataTransfer에서 FileList을 가져오기
+            var fileList = ev.dataTransfer.files;
+            var fileObj = fileList[0];
+            console.log(fileObj.name + ' ' + fileObj.type);
+            //2.FileReader 객체생성
+            var fileReader = new FileReader();
+            fileReader.onloadstart = function (ev) {
+                console.log('read start');
+            }
+            fileReader.onload = function (ev) {
+                console.log('read end');
+                dropzone.innerHTML = fileReader.result;
+            }
+            //3.FileReader의 readAsText(file)
+            fileReader.readAsText(fileObj,"EUC-KR");
+        }
+    </script>
+</head>
+<body>
+    <h2>Text File을 Drop 하세요</h2>
+    <div id="divDrop" dropzone="copy">
+
+    </div>
+</body>
+</html>
