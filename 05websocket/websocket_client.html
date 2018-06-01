@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        var wsUri = "ws://echo.websocket.org";
+        var output;
+        
+        window.onload = function () {
+            output = document.getElementById('output');
+            //1. WebSocket 객체생성
+            socket = new WebSocket(wsUri);
+            //2. WebSocket event별로 처리
+            socket.onopen = function (ev) { onOpen(ev);};
+            socket.onclose = function (ev) { onClose(ev);};
+            socket.onmessage = function(ev) { onMessage(ev);};
+            socket.onerror = function(ev) { onError(ev);};
+        }
+        function writeLog(message) {
+            var pTag = document.createElement('p');
+            pTag.innerHTML = message;
+            output.appendChild(pTag);
+        }
+        function onOpen(ev) {
+            writeLog("연결시작");
+            socket.send(">>> 테스트 메시지 전송");
+            writeLog("메시지 보냄");
+        }
+        function onClose(ev) {
+            writeLog("연결종료");
+        }
+        function onMessage(ev) {
+            writeLog('<span style="color:blue"> 수신 메시지 :'+ev.data+'</span>');
+            socket.close();
+        }
+        function onError(ev) {
+            console.log(ev);
+            writeLog('<span style="color:red"> 에러 메시지 :'+ev.type+'</span>');
+        }
+    </script>
+</head>
+<body>
+    <h2>WebSocket Test</h2>
+    <div id="output"></div>
+</body>
+</html>
