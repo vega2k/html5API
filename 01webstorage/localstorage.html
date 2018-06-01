@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function save() {
+            var value = document.getElementById('myEmail').value;
+            //저장된 값이 없으면
+            if(!localStorage.getItem('email')){
+                localStorage.setItem('email',value);
+                alert(value + " 저장됨");
+            }else {
+
+            }
+        }
+        function view() {
+            if(localStorage.getItem('email')){
+                document.getElementById('mySpan').innerHTML =
+                    localStorage.getItem('email');
+            }
+        }
+        function remove() {
+            localStorage.removeItem('email');
+            document.getElementById('mySpan').innerHTML = '';
+        }
+        window.onload = function () {
+            view();
+        }
+    </script>
+    <style>
+        span {
+            border:1px solid blue;
+            margin:20px;
+        }
+        button {
+            margin:20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>LocalStorage 연습</h2>
+    Email 입력 : <input type="email" id="myEmail">
+    <button onclick="save()">저장</button>
+    <hr>
+    Email 보기 : <span id="mySpan"></span>
+    <br>
+    <button onclick="view()">보기</button>
+    <button onclick="remove()">삭제</button>
+</body>
+</html>

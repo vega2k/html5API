@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #divDrop {
+            border:2px solid blue;
+            width:300px;
+            height: 200px;
+        }
+    </style>
+    <script>
+        function dragFunc(e) {
+            //처리할 event 메서드 drag, dragover, drop
+            document.getElementById('divDrag').addEventListener('drag',moveFunc);
+            document.getElementById('imgDrag').addEventListener('drag',moveFunc);
+            document.getElementById('divDrop').addEventListener('dragover',overFunc);
+            document.getElementById('divDrop').addEventListener('drop',function (ev) {
+                ev.preventDefault();
+                document.getElementById('spanLog').innerHTML =
+                    'Drop 완료 되었음';
+            });
+        }
+        function moveFunc(e) {
+            document.getElementById('spanLog').innerHTML =
+                'X 좌표 : ' + e.x + ' Y 좌표 : ' + e.y;
+        }
+        function overFunc(e) {
+            //default event 가 동작하지 않도록
+            e.preventDefault();
+            document.getElementById('spanLog').innerHTML =
+                'Drop 영역 안으로 들어왔어요!!';
+        }
+    </script>
+</head>
+<body>
+<h2>Drag & Drop</h2>
+<div draggable="true" id="divDrag" ondragstart="dragFunc(event)">드래그1</div>
+<br>
+<img src="html5.png" draggable="true" id="imgDrag" ondragstart="dragFunc(event)">
+<span id="spanLog"></span>
+<br>
+<div dropzone="copy" id="divDrop"></div>
+</body>
+</html>

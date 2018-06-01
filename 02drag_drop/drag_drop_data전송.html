@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #blueDrag {
+             border: 3px solid blue;
+             width: 100px;
+             margin: 10px;
+        }
+        #redDrag {
+            border: 3px solid red;
+            width: 100px;
+            margin: 10px;
+        }
+        #divDrop {
+            border: 2px solid black;
+            background-color: yellow;
+            width:300px;
+            height:200px;
+            margin: 30px;
+        }
+    </style>
+    <script>
+        window.onload = function () {
+            init();
+        }
+        function init() {
+            //dragstart,dragover,drop
+            document.getElementById('blueDrag').addEventListener('dragstart',startFunc);
+            document.getElementById('redDrag').addEventListener('dragstart',startFunc);
+            document.getElementById('divDrop').addEventListener('dragover',function (ev) {
+                ev.preventDefault();
+                ev.dataTransfer.dropEffect="copy";
+            });
+            document.getElementById('divDrop').addEventListener('drop',dropFunc);
+        }
+        function dropFunc(ev) {
+            //dataTransfer 객체에서 값을 읽어옴
+            ev.preventDefault();
+            var value = ev.dataTransfer.getData('color');
+            document.getElementById('divDrop').style["background-color"] = value;
+        }
+        function startFunc(ev) {
+            //dataTransfer 객체에 전송할 값을 저장
+            console.log(ev.target.innerText);
+            ev.dataTransfer.setData('color',ev.target.innerText);
+            ev.dataTransfer.effectAllowed="copy";
+        }
+    </script>
+</head>
+<body>
+    <h2>변경할 색깔을 Drag 하세요</h2>
+    <span id="blueDrag" draggable="true">blue</span>
+    <span id="redDrag" draggable="true">red</span>
+    <br>
+    <div id="divDrop" dropzone="copy">Drop Zone</div>
+</body>
+</html>
